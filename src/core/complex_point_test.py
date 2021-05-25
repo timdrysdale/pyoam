@@ -5,7 +5,7 @@ import unittest
 from complex_point import ComplexPoint
 import math
 
-class TestPoint(unittest.TestCase):
+class TestComplexPoint(unittest.TestCase):
     
     def test_init(self):
         x = 1.1
