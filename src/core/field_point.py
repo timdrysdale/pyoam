@@ -7,7 +7,7 @@ electric field, which is not known at the time the FieldPoint is created.
         x = 1
         y = 2
         z = 3
-        f1 = Field(x,y,z)
+        f1 = FieldPoint(x,y,z)
         f1.add(1+2j)
         assert(f1.real()==1)
 
