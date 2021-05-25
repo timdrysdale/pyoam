@@ -45,7 +45,7 @@ class ComplexPoint(Point):
     
     def abs(self):
         return abs(self.v)
-    
+        
     def phase(self):
         return phase(self.v)
     
