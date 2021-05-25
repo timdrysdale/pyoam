@@ -79,6 +79,14 @@ There are multiple ways to define each of these geometries - feel free to create
 
 The approach taken in this code has been validated in other implementations, by comparison to measured data, and subsequently published in peer-reviewed journals. The code in this repo can be validated by comparing to the previously published data, starting with fairly simple linear arrays and building up to OAM-generating antennas.
 
+The first validation example is taken from Kraus, J. D. and Marhefka R. J., "Antennas For All Applications", 3rd Edition (International), McGraw Hill, Boston, 2002, pp.90-93. A two-element array with isotropic elements spaced half a wavelength apart, and in-phase excitation gives a well-known pattern in the elevation plane:
+
+<img src="./img/TestPropagateTwoElementPatternElevation.png">
+
+And in the azimuth plane, a constant value:
+
+<img src="./img/TestPropagateTwoElementPatternAzimuth.png">
+
 
 ## Background Theory
 
