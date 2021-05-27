@@ -5,3 +5,4 @@ build
 *.out
 scripts/venv
 pip-wheel-metadata
+.#*
