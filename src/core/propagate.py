@@ -1,7 +1,7 @@
 """Propagate from sources to field points.
 
-A list of SourcePoints represent an antenna array, while a list of FieldPoints 
-represents the farfield points of interest. For a given frequency, the 
+A list of SourcePoints represent an antenna array, while a list of FieldPoints
+represents the farfield points of interest. For a given frequency, the
 farfield is calculated by summing the contribution from each source point, at
 each point in the farfield. Isotropic radiators are assumed, and the frequency
 is given in Hertz, for dimensions in metres.
@@ -24,8 +24,8 @@ is given in Hertz, for dimensions in metres.
         xff = np.linspace(-0.1,0.1,10)
         for xf in xff:
             fields.append(FieldPoint(xf,y,z2))
-        freq = 5e9 #5GHz    
-        propagate(sources,fields,freq) 
+        freq = 5e9 #5GHz
+        propagate(sources,fields,freq)
         plt.figure()
         ff = []
         for p in fields:
@@ -33,20 +33,30 @@ is given in Hertz, for dimensions in metres.
         plt.plot(xf,ff)
 
 """
-from scipy.constants import speed_of_light, pi
 from cmath import exp
-
+from scipy.constants import speed_of_light, pi
 
 def propagate(sources, fields, frequency_hertz):
+    """
+    For every field point, propagate and sum the
+    fields from every source point
+    """
     wavelength = speed_of_light / frequency_hertz
     k = 2. * pi / wavelength
-    for m in range(len(fields)):
-        for n in range(len(sources)):
-            fields[m] = propagate_single(sources[n], fields[m], k)
+    for index, field in enumerate(fields):
+        for source in sources:
+            fields[index] = propagate_single(source, field, k)
             #Check that the field is modified in calling scope
 
 
 def propagate_single(source, field, k):
+    """
+    Calculate the field ampltude at the field point
+    given a source point. This method needs to know
+    the wavevector k (2*pi/wavelength). The source
+    point and field point must have a non-zero distance
+    between them. An infinite vacuum region is assumed.
+    """
     r = source.distance(field)
     A = source.v * exp(1j * k * r) / (4 * pi * r)
     field.add(A)

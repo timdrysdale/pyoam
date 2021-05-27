@@ -1,13 +1,15 @@
 """Test point.py."""
 
 import unittest
-
-from .complex_point import ComplexPoint
 import math
+from .complex_point import ComplexPoint
+
 
 
 class TestComplexPoint(unittest.TestCase):
+    """ Test distance and value methods"""
     def test_init(self):
+        """Position and value equal to initialisation parameters"""
         x = 1.1
         y = 2.2
         z = 3.3
@@ -19,12 +21,14 @@ class TestComplexPoint(unittest.TestCase):
         self.assertEqual(p.v, v)
 
     def test_distance(self):
+        """Distance in 3D works as for parent"""
         p1 = ComplexPoint(-1, -1, -1, 0)
         p2 = ComplexPoint(1, 1, 1, 0)
         self.assertEqual(p1.distance(p2), 2 * 3**0.5)
         self.assertEqual(p2.distance(p1), 2 * 3**0.5)
 
     def test_add_value(self):
+        """Add value results in sum of previous and new value"""
         p1 = ComplexPoint(0, 0, 0, 1 + 2j)
         self.assertEqual(p1.real(), 1)
         self.assertEqual(p1.imag(), 2)
