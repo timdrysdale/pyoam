@@ -47,8 +47,6 @@ from scipy.constants import speed_of_light
         plt.title(
             'Two element pattern with half wavelength spacing - Elevation')
         plt.legend()
-        plt.savefig('TestPropagateTwoElementPatternElevation.png',
-                    dpi=150)
 
     def two_element_az():
         phis = np.linspace(0, 2 * pi, 100)
@@ -88,8 +86,7 @@ from scipy.constants import speed_of_light
         plt.ylabel('Normalised amplitude')
         plt.title('Two element pattern with half wavelength spacing - Azimuth')
         plt.legend()
-        plt.savefig('TestPropagateTwoElementPatternAzimuth.png',
-                    dpi=150)
+
 
 
 if __name__ == "__main__":
