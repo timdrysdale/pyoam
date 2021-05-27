@@ -88,7 +88,8 @@ from scipy.constants import speed_of_light
         plt.ylabel('Normalised amplitude')
         plt.title('Two element pattern with half wavelength spacing - Azimuth')
         plt.legend()
-
+        plt.savefig('TestPropagateTwoElementPatternAzimuth.png',
+                    dpi=150)
 
 
 if __name__ == "__main__":
