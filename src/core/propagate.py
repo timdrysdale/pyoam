@@ -37,8 +37,8 @@ from scipy.constants import speed_of_light, pi
 from cmath import exp
 
 
-def propagate(sources, fields, frequencyHz):
-    wavelength = speed_of_light / frequencyHz
+def propagate(sources, fields, frequency_hertz):
+    wavelength = speed_of_light / frequency_hertz
     k = 2. * pi / wavelength
     for m in range(len(fields)):
         for n in range(len(sources)):
