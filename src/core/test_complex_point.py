@@ -2,7 +2,7 @@
 
 import unittest
 
-from complex_point import ComplexPoint
+from .complex_point import ComplexPoint
 import math
 
 

@@ -2,7 +2,7 @@
 
 import unittest
 
-from field_point import FieldPoint
+from core.field_point import FieldPoint
 import math
 
 

@@ -12,7 +12,7 @@ electric field, which is not known at the time the FieldPoint is created.
         assert(f1.real()==1)
 
 """
-from complex_point import ComplexPoint
+from .complex_point import ComplexPoint
 
 
 class FieldPoint(ComplexPoint): # pylint: disable=too-few-public-methods  

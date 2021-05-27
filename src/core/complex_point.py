@@ -29,7 +29,7 @@ method is called.
 
 """
 from cmath import phase
-from point import Point
+from .point import Point
 
 
 class ComplexPoint(Point):

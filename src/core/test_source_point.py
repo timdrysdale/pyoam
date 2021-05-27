@@ -2,7 +2,7 @@
 
 import unittest
 
-from source_point import SourcePoint
+from .source_point import SourcePoint
 import math
 
 

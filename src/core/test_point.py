@@ -2,7 +2,7 @@
 
 import unittest
 
-from .point import point
+from core.point import Point
 
 
 class TestPoint(unittest.TestCase):

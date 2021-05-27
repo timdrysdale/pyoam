@@ -14,7 +14,7 @@ source defined in terms of its magnitude and phase
         assert(f1.real()==-1)
 
 """
-from complex_point import ComplexPoint
+from .complex_point import ComplexPoint
 from cmath import rect
 
 
