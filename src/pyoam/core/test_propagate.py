@@ -1,12 +1,11 @@
 """Test Propagate."""
 
 import unittest
-from math import pi, sin, cos
-import numpy as np
+from math import pi
 from scipy.constants import speed_of_light
 from core.field_point import FieldPoint
 from core.source_point import SourcePoint
-from core.propagate import propagate_single, propagate
+from core.propagate import propagate_single
 from demo.two_element import two_element_el, two_element_az
 
 class TestPropagateSingle(unittest.TestCase):
@@ -63,12 +62,11 @@ class TestPropagateSingle(unittest.TestCase):
 
 
 
-       
 class TestPropagate(unittest.TestCase):
     """Test propagation from multiple source points"""
     def test_two_element_el(self):
         """Test elevation results for two-element half-wavelength antenna"""
-        normalised_ffa, expected = two_element_el()
+        _, normalised_ffa, expected = two_element_el()
         epsilon = 0.0005
         epsilon_alt = 0.01
         for actual, wanted in zip(normalised_ffa, expected):
@@ -79,7 +77,7 @@ class TestPropagate(unittest.TestCase):
 
     def test_two_element_az(self):
         """Test elevation results for two-element half-wavelength antenna"""
-        normalised_ffa, expected = two_element_az()
+        _, normalised_ffa, expected = two_element_az()
         epsilon = 0.0005
         epsilon_alt = 0.01
         for actual, wanted in zip(normalised_ffa, expected):
