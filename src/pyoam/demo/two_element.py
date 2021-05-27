@@ -1,14 +1,15 @@
 """Demonstrate two-element antenna array calculation."""
 
-from core.field_point import FieldPoint
-from core.source_point import SourcePoint
-from core.propagate import propagate_single, propagate
+from math import pi, sin, cos
 import numpy as np
 import matplotlib.pyplot as plt
-from math import pi, sin, cos
 from scipy.constants import speed_of_light
+from core.field_point import FieldPoint
+from core.source_point import SourcePoint
+from core.propagate import propagate
 
 def two_element_el():
+    """Two element array, elevation farfield"""
     phis = np.linspace(0, 2 * pi, 100)
     fields = []
     expected = []
@@ -18,6 +19,8 @@ def two_element_el():
         x = r * cos(phi)
         y = r * sin(phi)
         fields.append(FieldPoint(x, y, z))
+        # Expected result from J.D. Kraus Antennas For All Applications
+        # 3rd Edition (International) pp.90ff
         expected.append(cos(pi / 2 * cos(phi)))
     frequency = 1e9
     wavelength = speed_of_light / frequency
@@ -32,18 +35,10 @@ def two_element_el():
         ff.append(field.abs())
     ffa = np.array(ff)
     normalised_ffa = ffa / np.max(ffa)
-    epsilon = 0.0005
-    epsilon_alt = 0.01
-    plt.figure()
-    plt.plot(phis, ffa / np.max(ffa), label='actual')
-    plt.plot(phis, expected, '+', label='wanted')
-    plt.xlabel('Theta (radians)')
-    plt.ylabel('Normalised amplitude')
-    plt.title(
-        'Two element pattern with half wavelength spacing - Elevation')
-    plt.legend()
+    return normalised_ffa, expected
 
 def two_element_az():
+    """Two element array, azimuth farfield"""
     phis = np.linspace(0, 2 * pi, 100)
     fields = []
     expected = []
@@ -53,6 +48,8 @@ def two_element_az():
         z = r * cos(phi)
         y = r * sin(phi)
         fields.append(FieldPoint(x, y, z))
+        # Expected result from J.D. Kraus Antennas For All Applications
+        # 3rd Edition (International) pp.90ff
         expected.append(1)
     frequency = 1e9
     wavelength = speed_of_light / frequency
@@ -67,10 +64,27 @@ def two_element_az():
         ff.append(field.abs())
     ffa = np.array(ff)
     normalised_ffa = ffa / np.max(ffa)
-    epsilon = 0.0005
-    epsilon_alt = 0.01
+    return normalised_ffa, expected
+
+def plot_two_element_el():
+    # pylint: disable=too-many-locals, duplicate-code
+    """Plot the far-field of two element array (elevation)"""
+    normalised_ffa, expected = two_element_el()
     plt.figure()
-    plt.plot(phis, ffa / np.max(ffa), label='actual')
+    plt.plot(phis, normalised_ffa, label='actual')
+    plt.plot(phis, expected, '+', label='wanted')
+    plt.xlabel('Theta (radians)')
+    plt.ylabel('Normalised amplitude')
+    plt.title(
+        'Two element pattern with half wavelength spacing - Elevation')
+    plt.legend()
+
+def plot_two_element_az():
+    # pylint: disable=too-many-locals, duplicate-code
+    """Plot the far-field of two element array (azimuth)"""
+    normalised_ffa, expected = two_element_az()
+    plt.figure()
+    plt.plot(phis, normalised_ffa, label='actual')
     plt.plot(phis, expected, '+', label='wanted')
     plt.xlabel('Phi (radians)')
     plt.ylabel('Normalised amplitude')
@@ -80,5 +94,5 @@ def two_element_az():
 
 
 if __name__ == "__main__":
-    two_element_el()
-    two_element_az()
+    plot_two_element_el()
+    plot_two_element_az()

@@ -1,2 +1,2 @@
 #!/bin/bash
-cd ../src && python -m unittest && cd ../build
+cd ../src/pyoam && python -m unittest && cd ../../scripts
