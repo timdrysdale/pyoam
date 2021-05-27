@@ -81,11 +81,11 @@ The approach taken in this code has been validated in other implementations, by 
 
 The first validation example is taken from Kraus, J. D. and Marhefka R. J., "Antennas For All Applications", 3rd Edition (International), McGraw Hill, Boston, 2002, pp.90-93. A two-element array with isotropic elements spaced half a wavelength apart, and in-phase excitation gives a well-known pattern in the elevation plane:
 
-<img src="./img/TestPropagateTwoElementPatternElevation.png">
+<img src="./img/two_element_el.png">
 
 And in the azimuth plane, a constant value:
 
-<img src="./img/TestPropagateTwoElementPatternAzimuth.png">
+<img src="./img/two_element_az.png">
 
 
 ## Background Theory

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyoam
-Version: 0.0.2
+Version: 0.0.3
 Summary: Array factor calculations for linear and orbital angular momentum mode antennas
 Home-page: https://github.com/timdrysdale/pyoam
 Author: Timothy Drysdale
