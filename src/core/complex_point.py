@@ -31,26 +31,26 @@ method is called.
 from cmath import phase
 from point import Point
 
+
 class ComplexPoint(Point):
-    
-    def __init__(self, x,y,z, value):
-        Point.__init__(self,x,y,z)
+    def __init__(self, x, y, z, value):
+        Point.__init__(self, x, y, z)
         self.v = value
-    
+
     def real(self):
         return self.v.real
-    
+
     def imag(self):
         return self.v.imag
-    
+
     def abs(self):
         return abs(self.v)
-        
+
     def phase(self):
         return phase(self.v)
-    
-    def add(self,value):
+
+    def add(self, value):
         self.v = self.v + value
-        
+
     def zero(self):
         self.v = 0

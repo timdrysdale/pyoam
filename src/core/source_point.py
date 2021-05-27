@@ -17,8 +17,8 @@ source defined in terms of its magnitude and phase
 from complex_point import ComplexPoint
 from cmath import rect
 
-class SourcePoint(ComplexPoint):
-    
-    def __init__(self, x,y,z, mag, phase):
-        v = rect(mag,phase)
-        ComplexPoint.__init__(self,x,y,z,v)
+
+class SourcePoint(ComplexPoint): # pylint: disable=too-few-public-methods  
+    def __init__(self, x, y, z, mag, phase):
+        v = rect(mag, phase)
+        ComplexPoint.__init__(self, x, y, z, v)

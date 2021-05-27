@@ -13,6 +13,7 @@ distance between two points is of interest for calculating field values.
 
 import math
 
+
 class Point:
     """Three dimensional point in Cartesian geometry.
     
@@ -21,18 +22,13 @@ class Point:
         y: A float for the y-axis value
         xz A float for the z-axis value
     """
-    
     def __init__(self, x, y, z):
         """Inits Point with its position."""
         self.x = x
         self.y = y
         self.z = z
-        
+
     def distance(self, point):
         """Calculates the distance to/from another Point (always positive)"""
-        return math.sqrt((self.x-point.x)**2 + (self.y-point.y)**2 + (self.z-point.z)**2)
-        
-
- 
-    
-    
+        return math.sqrt((self.x - point.x)**2 + (self.y - point.y)**2 +
+                         (self.z - point.z)**2)

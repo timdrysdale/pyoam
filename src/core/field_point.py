@@ -14,7 +14,7 @@ electric field, which is not known at the time the FieldPoint is created.
 """
 from complex_point import ComplexPoint
 
-class FieldPoint(ComplexPoint):
-    
-    def __init__(self, x,y,z):
-        ComplexPoint.__init__(self,x,y,z,0)
+
+class FieldPoint(ComplexPoint): # pylint: disable=too-few-public-methods  
+    def __init__(self, x, y, z):
+        ComplexPoint.__init__(self, x, y, z, 0)

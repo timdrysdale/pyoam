@@ -36,16 +36,18 @@ is given in Hertz, for dimensions in metres.
 from scipy.constants import speed_of_light, pi
 from cmath import exp
 
+
 def propagate(sources, fields, frequencyHz):
     wavelength = speed_of_light / frequencyHz
     k = 2. * pi / wavelength
     for m in range(len(fields)):
-        for n in range(len(sources)): 
-            fields[m] = propagate_single(sources[n],fields[m],k)
+        for n in range(len(sources)):
+            fields[m] = propagate_single(sources[n], fields[m], k)
             #Check that the field is modified in calling scope
-        
-def propagate_single(source,field,k):
+
+
+def propagate_single(source, field, k):
     r = source.distance(field)
-    A = source.v * exp(1j*k*r) / (4 * pi * r)
+    A = source.v * exp(1j * k * r) / (4 * pi * r)
     field.add(A)
-    return field    
+    return field
