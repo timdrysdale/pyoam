@@ -20,7 +20,7 @@ If you are using an interactive python environment with support for showing grap
 
 <img src="./img/two_element_el.png">
 
-If you are already familiar with modelling antenna arrays, then you can jump straight into trying out the code.  Else skip the code for now.
+If you are already familiar with modelling antenna arrays, then you can jump straight into trying out the code.
 
 Here is the code used to generate the example you just saw:
 
@@ -79,7 +79,7 @@ plt.title(
 plt.legend()
 ```
 
-This code is available in the repo [here](./scripts/example.py)
+This code is available in the repo [here](./scripts/example.py). The following sections give some background to what this code is doing.
 
 
 ### Electromagnetic radiators
