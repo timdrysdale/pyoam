@@ -1,6 +1,12 @@
 # pyoam v0.0.4
 python array factor calculation for linear and orbital angular momentum antennas
 
+## Features
+
+- 3D Cartesian coordinate system
+- isotropic point sources with complex excitation
+- complex far fields (phase and magnitude)
+
 ## Getting started
 
 The latest version of the module is hosted on pypi, so can be installed in the usual manner with pip.
@@ -86,7 +92,7 @@ This code is available in the repo [here](./scripts/example.py). The following s
 
 The electric field at a distance from a simple electromagnetic radiator is proportional to 1/r, where r is the distance. Note that the usual conservation of energy laws require this because the power (i.e. energy/time) in an electric field must be conserved as it radiates out into space in all directions. At each instant in time, the energy summed up over the surface of the sphere of radius r must be constant, thus the energy per unit area must reduce at the rate 1/r^2. Since power is proportional to energy <img src="https://render.githubusercontent.com/render/math?math=P=E/t">, and since the power of an electric field is proportional to the amplitude squared <img src="https://render.githubusercontent.com/render/math?math=P \propto E^2"> this forces the amplitude to reduce at a rate of 1/r, as explained [here](https://en.wikipedia.org/wiki/Near_and_far_field).
 
-<img src=https://quicklatex.com/cache3/4a/ql_62a5b6cac6ba46dabe7eb0c126de334a_l3.png>
+![equation1](./img/equation1.png)
 
 where:
 
@@ -102,7 +108,6 @@ For an isotropic radiator, <img src="https://render.githubusercontent.com/render
 
 For more complicated radiators, with multiple individual elements, the basic principle of the conservation of energy holds, but you are usually interested in the way the amount of energy radiated varies with the azimuth and elevation - this is sometimes called the radiation pattern or if it is an antenna array, sometimes it is also called the array factor.
 
-[//]: <> (A\left(r,t,\theta,\phi\right)\propto\frac{U(\theta,\phi)}{4\pi}\frac{e^{kr + \omega t + \Psi(\theta,\phi)}}{r})
 
 ### Array factor (Array far field, or radiation pattern)
 
@@ -190,6 +195,94 @@ You'll know when your analysis needs to upgrade to an actual real-world antenna 
 ##### Parasitic loading effects
 
 Antennas are sensitive to the presence of other antennas, and even just metal, especially within a range of a quarter of a wavelength. If the antennas in your array are spaced sufficiently far apart, then you can neglect the effects they have on each other in your analysis to make your calculations simpler and faster. That is the approach taken in this code - but be aware that there is no built-in facility to tell you when you really should start including the mutual effects. That's up to you! Like in the previous section - if you are simply exploring the effects of different array configurations, then ignoring mutual coupling is fine. When you start trying to compare simulation and measurement, you will find you want to include the effects to explain why the results are not as good as you expected.
+
+### Reflective surfaces
+
+Spherical mirrors are useful for collimating OAM beams, see e.g.[this paper](https://ietresearch.onlinelibrary.wiley.com/doi/epdf/10.1049/iet-map.2019.0808). Modelling the reflection of rays is computational demanding, but can be simplified according to [(Goncavles Opt. Lett. 2010)](https://www.osapublishing.org/ol/abstract.cfm?uri=ol-35-2-100). The following notes on definitions and implementation details are made from the paper.
+
+#### Definitions
+
+##### Homogeneous coordinates
+
+[Homogeneous coordinates](https://en.wikipedia.org/wiki/Homogeneous_coordinates) allow the representation of infinite points using finite values, and are simpler and more symmetric than the Cartesian equivalent. 
+
+Homogenous coordiante points are expressed as:
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathbf{X}=\left[x_1,x_2,x_3,x_4\right]^T">
+
+where the equivalent Cartesian point is 
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathbf{x}=\left[x,y,z\right]^T">
+
+where 
+
+<img src="https://render.githubusercontent.com/render/math?math=x=x_1/x_4,y=x_2/x_4,z=x_3/x_4">
+
+Properties of note:
+Multiplication of each coordinate by a scalar results in a the same point (because ab/ac = b/c).
+
+##### Quadric Surface
+
+Quadric surfaces are represented by a 4×4 symmetric matrix **Q**. A point **X** only belongs to a quadric surface **QQ** if and only if it this equation is true
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathbf{X}^T\mathbf{QX}=0">
+
+Quadric surfaces include the sphere, although it is not immediately clear how to represent a concave hemisphere, where the reflection we are interested in falls on the inside. Fortunately, we have another choice which may be more mathematically accessible, the [hyperboloid of two sheets](https://en.wikipedia.org/wiki/HyperboloidHyperbolic). Hyperbolic mirrors are excellent focusing devices (and optimal choices for a number of applications such as telescopes). A hyperboloid is projectively equivalent to a sphere, but then any two non-singular quadrics of the same dimension are too (see Q3 http://www.math.lsa.umich.edu/~kesmith/631-2013hmwk4.pdf), so we needn't let that distract us. However, which side of the hyperboloid is the outside? Some telescopes use them in a convex way...
+
+##### Absolute dual quadric 
+
+In projective geometry, the absolute dual quadric is the quadric with the equation:
+
+<img src="https://render.githubusercontent.com/render/math?math=x^2\%2By^2\%2Bz^2=0">
+
+What is the relevance to the present problem - it is not a restriction on the surface we can model, but a route to solving the problem, as can be seen in Proposition 1. The absolute dual quadric is used elsewhere [in camera auto-calibration approaches](http://vision.ucsd.edu/~manu/cvpr07_quadric.pdf) with a bit more of a description of it [here](https://hal.inria.fr/inria-00548345).
+
+#### Restrictions
+
+##### Restriction #1
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathbf{R}^T\mathbf{QR}=0">
+
+the point is on the quadric of the mirror surface
+
+##### Restriction #2
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathbf{R}^T\mathbf{AR}=0"> 
+
+the point is on an analytical quadric given by proposition #1
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathbf{A}=\mathbf{M}^T\mathbf{Q}^*_\infinity\mathbf{Q}"> 
+
+
+#### Proposition #1
+
+The reflection point **R** on a quadric mirror **Q**, reflecting a light ray emitted by the a source **S** to a target **T**, is on the quadric surface **A** given by  
+<img src="https://render.githubusercontent.com/render/math?math=\mathbf{A}=\mathbf{M}^T\mathbf{Q}^*_\infinity\mathbf{Q}"> 
+
+where 
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathbf{Q}^*_\infinity">
+
+is the absolute dual quadric; the 4×4 matrix **M** is given by the expression for the source and target points 
+
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathbf{M}=\mathbf{M}(\mathbf{S},\mathbf{T})">
+
+where **M** is given by
+
+![M](./img/m.png)
+
+##### Restriction #3
+
+By the Fermat principle, the total distance travelled from S to T, via R, must be minimised, i.e.
+
+<img src="https://render.githubusercontent.com/render/math?math=\text{min}_\mathbf{R}\{||\mathbf{SR}||%2B||\mathbf{RT}||\}">
+
+##### Solution
+
+The quadrics **Q** and **A** must be found, and can be done so efficiently with [this method](https://www.sciencedirect.com/science/article/pii/S074771710700123X). Then the solution is found in a non-linear equation in only one parameter. The code is approx 17,000 lines of C++ and is found [here](https://gamble.loria.fr/qi/).
+
+
 
 
 
